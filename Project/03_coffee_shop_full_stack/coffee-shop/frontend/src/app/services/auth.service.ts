@@ -21,14 +21,14 @@ export class AuthService {
   constructor() { }
 
   build_login_link(callbackPath = '/tabs/drink-menu') {
-    let link = 'https://';
-    link += this.url + '.auth0.com';
-    link += '/authorize?';
-    link += 'audience=' + this.audience + '&';
-    link += 'response_type=token&';
-    link += 'client_id=' + this.clientId + '&';
-    link += 'redirect_uri=' + this.callbackURL + callbackPath;
-    return link;
+    const base = `https://${this.url}.auth0.com/authorize?`;
+    const params = [
+      `audience=${encodeURIComponent(this.audience)}`,
+      `response_type=token`,
+      `client_id=${encodeURIComponent(this.clientId)}`,
+      `redirect_uri=${encodeURIComponent(this.callbackURL + callbackPath)}`
+    ];
+    return base + params.join('&');
   }
 
   // invoked in app.component on load
@@ -72,6 +72,10 @@ export class AuthService {
     this.token = '';
     this.payload = null;
     this.set_jwt();
+    // Redirect to Auth0 logout endpoint to clear Auth0 session
+    const returnTo = encodeURIComponent(this.callbackURL + '/tabs/drink-menu');
+    const logoutUrl = `https://${this.url}.auth0.com/v2/logout?client_id=${encodeURIComponent(this.clientId)}&returnTo=${returnTo}`;
+    window.location.href = logoutUrl;
   }
 
   can(permission: string) {

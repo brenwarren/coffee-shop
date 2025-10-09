@@ -7,7 +7,9 @@
 <!-- Show login button if not authenticated -->
 <ion-content *ngIf="!auth.token" class="ion-padding">
   <div style="display: flex; justify-content: center; align-items: center; height: 80vh;">
-    <ion-button [href]="auth.build_login_link()">Log In</ion-button>
+    <a [href]="auth.build_login_link()" style="text-decoration: none;">
+      <ion-button>Log In</ion-button>
+    </a>
   </div>
 </ion-content>
 
