@@ -7,6 +7,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./user-page.page.scss'],
 })
 export class UserPagePage implements OnInit {
+  // NOTE: This page is no longer the default landing page after login.
+  // It is only used for displaying user profile info if needed.
   loginURL: string;
 
   constructor(public auth: AuthService) {
